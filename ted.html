@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Swetha 🧸</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{scroll-behavior:smooth;overflow-x:hidden}
+
+body{
+  font-family:'Segoe UI',sans-serif;
+  background:#0f0f14;
+  color:white;
+}
+
+/* SECTION BASE */
+section{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:60px 40px;
+  position:relative;
+}
+
+/* SPLIT */
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:50px;
+  max-width:1100px;
+  width:100%;
+}
+
+/* IMAGE */
+.photo{
+  width:100%;
+  border-radius:30px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.6);
+  transform:translateY(40px);
+  opacity:0;
+  transition:1s ease;
+  will-change:transform;
+}
+
+/* TEXT */
+.text{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:18px;
+  transform:translateY(40px);
+  opacity:0;
+  transition:1s ease;
+}
+
+.text h2{font-size:2.4em}
+.text p{font-size:1.3em;line-height:1.5;opacity:0.9}
+
+/* REVEAL */
+.show .photo,
+.show .text{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* FINAL */
+.final{
+  flex-direction:column;
+  text-align:center;
+  background:radial-gradient(circle,#ffb6c1,#ff6f91);
+  color:#4b1e2f;
+}
+
+.final img{
+  width:220px;
+  animation:float 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 25px rgba(255,255,255,0.6));
+}
+
+.final h1{
+  font-size:3em;
+  margin-top:20px;
+}
+
+.final p{
+  font-size:1.5em;
+  margin-top:10px;
+}
+
+/* GLOW */
+.glow{
+  animation:glow 2.5s ease-in-out infinite;
+}
+
+@keyframes glow{
+  0%,100%{text-shadow:0 0 10px rgba(255,255,255,.6)}
+  50%{text-shadow:0 0 30px rgba(255,255,255,1)}
+}
+
+/* FLOAT */
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-18px)}
+}
+
+/* PROGRESS DOTS */
+.dots{
+  position:fixed;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:10;
+}
+.dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#666;
+  transition:.3s;
+}
+.dot.active{background:#ff6f91}
+
+/* MUSIC BUTTON */
+.music{
+  position:fixed;
+  left:20px;
+  bottom:20px;
+  background:#ff6f91;
+  color:white;
+  border:none;
+  border-radius:50px;
+  padding:10px 18px;
+  cursor:pointer;
+  z-index:10;
+}
+
+/* REPLAY */
+.replay{
+  margin-top:25px;
+  padding:10px 26px;
+  border:none;
+  border-radius:30px;
+  background:#fff;
+  color:#ff6f91;
+  cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .split{grid-template-columns:1fr}
+  .text h2{font-size:2em}
+  .text p{font-size:1.2em}
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgm" loop>
+  <source src="images/music.mp3" type="audio/mpeg">
+</audio>
+<button class="music" onclick="toggleMusic()">🎵 Music</button>
+
+<!-- DOTS -->
+<div class="dots" id="dots"></div>
+
+<!-- SECTIONS -->
+<section class="reveal">
+  <div class="split">
+    <img src="images/swetha1.jpg" class="photo">
+    <div class="text">
+      <h2>Hey Swetha…</h2>
+      <p>The first thing I notice is your calm smile.</p>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="split">
+    <div class="text">
+      <h2>You make things softer</h2>
+      <p>Even ordinary days feel gentle when you’re around.</p>
+    </div>
+    <img src="images/swetha2.jpg" class="photo">
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="split">
+    <img src="images/swetha3.jpg" class="photo">
+    <div class="text">
+      <h2>You feel like comfort</h2>
+      <p>Not loud. Not flashy. Just real.</p>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="split">
+    <div class="text">
+      <h2>That’s why…</h2>
+      <p>Today felt like the right day to say this.</p>
+    </div>
+    <img src="images/swetha4.jpg" class="photo">
+  </div>
+</section>
+
+<section class="final">
+  <img src="images/ted_as.gif">
+  <h1 class="glow" id="type"></h1>
+  <p><strong>my cute teddy 🧸💖</strong></p>
+  <button class="replay" onclick="location.reload()">Replay 💫</button>
+</section>
+
+<script>
+/* REVEAL */
+const sections=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver(e=>{
+  e.forEach(x=>x.isIntersecting&&x.target.classList.add('show'))
+},{threshold:.3});
+sections.forEach(s=>observer.observe(s));
+
+/* DOTS */
+const dots=document.getElementById('dots');
+document.querySelectorAll('section').forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot';
+  dots.appendChild(d);
+});
+const dotItems=[...document.querySelectorAll('.dot')];
+window.addEventListener('scroll',()=>{
+  let i=Math.round(window.scrollY/window.innerHeight);
+  dotItems.forEach(d=>d.classList.remove('active'));
+  dotItems[i]?.classList.add('active');
+});
+
+/* TYPEWRITER */
+const text="Love youu";
+let i=0;
+setTimeout(()=>{
+  const t=document.getElementById('type');
+  const iv=setInterval(()=>{
+    t.textContent+=text[i++];
+    if(i>=text.length)clearInterval(iv);
+  },150);
+},800);
+
+/* MUSIC */
+function toggleMusic(){
+  const m=document.getElementById('bgm');
+  m.paused?m.play():m.pause();
+}
+</script>
+
+</body>
+</html>
